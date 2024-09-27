@@ -1,10 +1,14 @@
 using AutoMapper;
+using Hr.LeaveManagement.Application.Contracts.Logging;
 using Hr.LeaveManagement.Application.Contracts.Persistence;
 using MediatR;
 
 namespace Hr.LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveType;
 
-public class GetLeaveTypesQueryHandler(IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
+public class GetLeaveTypesQueryHandler(
+    IMapper mapper,
+    ILeaveTypeRepository leaveTypeRepository,
+    IAppLogger<GetLeaveTypesQueryHandler> logger)
     : IRequestHandler<GetAllLeaveTypesQuery, List<LeaveTypeDto>>
 {
     public async Task<List<LeaveTypeDto>> Handle(GetAllLeaveTypesQuery request, CancellationToken cancellationToken)
