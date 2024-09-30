@@ -1,6 +1,8 @@
+using Hr.LeaveManagement.Domain.Entities;
+
 namespace Hr.LeaveManagement.Application.Contracts.Persistence;
 
-public interface IGenericRepository<T> where T : class
+public interface IGenericRepository<T> where T : BaseEntity
 {
     Task<IReadOnlyList<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);

@@ -1,4 +1,5 @@
 using System.Reflection;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hr.LeaveManagement.Application;
@@ -9,7 +10,6 @@ public static class ApplicationServiceRegistration
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
         return services;
     }
 }

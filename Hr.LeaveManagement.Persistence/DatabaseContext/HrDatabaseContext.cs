@@ -16,6 +16,14 @@ public class HrDatabaseContext(DbContextOptions<HrDatabaseContext> options) : Db
         base.OnModelCreating(modelBuilder);
     }
 
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     if (!optionsBuilder.IsConfigured)
+    //     {
+    //         optionsBuilder.UseMySQL();
+    //     }
+    // }
+
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         foreach (var entry in base.ChangeTracker.Entries<BaseEntity>()

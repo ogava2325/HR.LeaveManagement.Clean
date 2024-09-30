@@ -12,10 +12,9 @@ public static class PersistenceServiceRegistration
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("HrDatabaseConnectionString");
         services.AddDbContext<HrDatabaseContext>(options =>
         {
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            options.UseMySQL(configuration.GetConnectionString("HrDatabaseConnectionString"));
         });
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

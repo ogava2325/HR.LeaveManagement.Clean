@@ -5,21 +5,31 @@ using MediatR;
 
 namespace Hr.LeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveType;
 
-public class GetLeaveTypesQueryHandler(
-    IMapper mapper,
-    ILeaveTypeRepository leaveTypeRepository,
-    IAppLogger<GetLeaveTypesQueryHandler> logger)
-    : IRequestHandler<GetAllLeaveTypesQuery, List<LeaveTypeDto>>
+public class GetLeaveTypesQueryHandler : IRequestHandler<GetAllLeaveTypesQuery, List<LeaveTypeDto>>
 {
+    private readonly ILeaveTypeRepository _leaveTypeRepository;
+    private readonly IAppLogger<GetLeaveTypesQueryHandler> _logger;
+    private readonly IMapper _mapper;
+
+    public GetLeaveTypesQueryHandler(IMapper mapper,
+        ILeaveTypeRepository leaveTypeRepository,
+        IAppLogger<GetLeaveTypesQueryHandler> logger)
+    {
+        _mapper = mapper;
+        _leaveTypeRepository = leaveTypeRepository;
+        _logger = logger;
+    }
+
     public async Task<List<LeaveTypeDto>> Handle(GetAllLeaveTypesQuery request, CancellationToken cancellationToken)
     {
-        //query the database
-        var leaveTypes = await leaveTypeRepository.GetAllAsync();
+        // query the database
+        var leaveTypes = await _leaveTypeRepository.GetAllAsync();
 
-        //convert data objects to DTO
-        var data = mapper.Map<List<LeaveTypeDto>>(leaveTypes);
+        // convert data objects to DTO 
+        var data = _mapper.Map<List<LeaveTypeDto>>(leaveTypes);
 
-        //return list of DTO object
+        // return list of DTO
+        _logger.LogInformation("Leave types were retrieved successfully");
         return data;
     }
 }
