@@ -12,6 +12,6 @@ public class LeaveTypeRepository(HrDatabaseContext context)
 
     public async Task<bool> IsUnique(string name)
     {
-        return await _context.LeaveTypes.AnyAsync(q => q.Name == name);
+        return await _context.LeaveTypes.AnyAsync(q => q.Name == name) == false;
     }
 }

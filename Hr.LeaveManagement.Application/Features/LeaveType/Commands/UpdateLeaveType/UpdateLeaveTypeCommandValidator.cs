@@ -15,18 +15,19 @@ public class UpdateLeaveTypeCommandValidator : AbstractValidator<UpdateLeaveType
             .MaximumLength(70).WithMessage("{PropertyName} must be fewer than 70 characters");
 
         RuleFor(p => p.DefaultDays)
-            .GreaterThan(100).WithMessage("{PropertyName} cannot exceed 100")
-            .LessThan(1).WithMessage("{PropertyName} cannot be less than 1");
+            .LessThan(100).WithMessage("{PropertyName} cannot exceed 100")
+            .GreaterThan(1).WithMessage("{PropertyName} cannot be less than 1");
 
-        RuleFor(q => q)
-            .MustAsync(LeaveTypeNameUnique)
-            .WithMessage("Leave type already exists");
+        RuleFor(q => q.Id)
+            .NotNull()
+            .MustAsync(LeaveTypeMustExist);
 
         _leaveTypeRepository = leaveTypeRepository;
     }
 
-    private Task<bool> LeaveTypeNameUnique(UpdateLeaveTypeCommand command, CancellationToken token)
+    private async Task<bool> LeaveTypeMustExist(int id, CancellationToken cancellationToken)
     {
-        return _leaveTypeRepository.IsUnique(command.Name);
+        var leaveType = await _leaveTypeRepository.GetByIdAsync(id);
+        return leaveType != null;
     }
 }

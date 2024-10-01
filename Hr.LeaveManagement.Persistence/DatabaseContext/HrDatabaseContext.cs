@@ -16,13 +16,6 @@ public class HrDatabaseContext(DbContextOptions<HrDatabaseContext> options) : Db
         base.OnModelCreating(modelBuilder);
     }
 
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // {
-    //     if (!optionsBuilder.IsConfigured)
-    //     {
-    //         optionsBuilder.UseMySQL();
-    //     }
-    // }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -31,9 +24,14 @@ public class HrDatabaseContext(DbContextOptions<HrDatabaseContext> options) : Db
         {
             entry.Entity.DateModified = DateTime.Now;
 
-            if (entry.State == EntityState.Added)
+            switch (entry.State)
             {
-                entry.Entity.DateCreated = DateTime.Now;
+                case EntityState.Added:
+                    entry.Entity.DateCreated = DateTime.Now;
+                    break;
+                case EntityState.Modified:
+                    entry.Property(e => e.DateCreated).IsModified = false;
+                    break;
             }
         }
 
