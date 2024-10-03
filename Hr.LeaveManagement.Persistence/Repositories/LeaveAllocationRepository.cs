@@ -8,7 +8,7 @@ namespace Hr.LeaveManagement.Persistence.Repositories;
 public class LeaveAllocationRepository(HrDatabaseContext context)
     : GenericRepository<LeaveAllocation>(context), ILeaveAllocationRepository
 {
-    private readonly HrDatabaseContext _context = context;
+    private new readonly HrDatabaseContext _context = context;
 
     public async Task AddAllocations(List<LeaveAllocation> allocations)
     {

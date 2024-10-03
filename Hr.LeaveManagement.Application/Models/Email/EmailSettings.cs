@@ -1,4 +1,4 @@
-namespace Hr.LeaveManagement.Application.Models;
+namespace Hr.LeaveManagement.Application.Models.Email;
 
 public class EmailSettings
 {
